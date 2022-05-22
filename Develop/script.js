@@ -4,10 +4,11 @@ var pickedLowercaseLetters;
 var pickedUppercaseLetters;
 var pickedNumbers;
 var pickedSpecialCharacters;
+var password = "";
 
 lowercase = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y" ,"z"];
 uppercase = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
-specialCharacters = ["!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "'", ",", ".", "<", ">", "?", "/"];
+specialCharacters = ["!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "'", ".", "<", ">", "?", "/"];
 number = [1, 2, 3, 4, 5, 6, 7, 8, 9,];
 
 // where final choices will be stored
@@ -30,7 +31,7 @@ function generatePassword() {
   } else {
     pickedLowercaseLetters = window.confirm("Do you want to include lower case letters?");
     pickedUppercaseLetters = window.confirm("Do you want to include upper case letters?");
-    pickedNumbers = window.confirm("Do you want to include pickedNumbers?");
+    pickedNumbers = window.confirm("Do you want to include Numbers?");
     pickedSpecialCharacters = window.confirm("Do you want to include special characters?"); 
   };
 
@@ -39,23 +40,23 @@ function generatePassword() {
     confirmChoices = alert("Please make sure you are selecting more than two criteria!");
   }
   else if (pickedLowercaseLetters && pickedUppercaseLetters && pickedNumbers && pickedSpecialCharacters) {
-    confirmChoices = lowercase.concat(uppercase, specialCharacters, numbers);
+    confirmChoices = lowercase.concat(uppercase, specialCharacters, number);
   }
 
   //if user only selects three choices
   //starting with lowercase
   else if (pickedLowercaseLetters && pickedUppercaseLetters && pickedNumbers) {
-    confirmChoices = lowercase.concat(uppercase, numbers);
+    confirmChoices = lowercase.concat(uppercase, number);
   } 
   else if (pickedLowercaseLetters && pickedUppercaseLetters && pickedSpecialCharacters) {
     confirmChoices = lowercase.concat(uppercase, specialCharacters)
   }
   else if (pickedLowercaseLetters && pickedNumbers && pickedSpecialCharacters) {
-    confirmChoices = lowercase.concat(numbers, specialCharacters)
+    confirmChoices = lowercase.concat(number, specialCharacters)
   }
   //uppercase selections
   else if (pickedUppercaseLetters && pickedNumbers && pickedSpecialCharacters) {
-    confirmChoices = uppercase.concat(numbers, specialCharacters)
+    confirmChoices = uppercase.concat(number, specialCharacters)
   }
 
   //If user only selects two choices
@@ -63,43 +64,41 @@ function generatePassword() {
     confirmChoices = lowercase.concat(uppercase)
   }
   else if (pickedLowercaseLetters && pickedNumbers) {
-    confirmChoices = lowercase.concat(numbers)
+    confirmChoices = lowercase.concat(number)
   }
   else if(pickedLowercaseLetters && pickedSpecialCharacters) {
     confirmChoices = lowercase.concat(specialCharacters)
   }
   else if (pickedUppercaseLetters && pickedNumbers) {
-    confirmChoices = uppercase.concat(numbers)
+    confirmChoices = uppercase.concat(number)
   }
   else if (pickedUppercaseLetters && pickedSpecialCharacters) {
     confirmChoices = uppercase.concat(specialCharacters)
   }
   else if (pickedNumbers && pickedSpecialCharacters) {
-    confirmChoices = numbers.concat(specialCharacters)
+    confirmChoices = number.concat(specialCharacters)
   }
+
+  var password = [];
+
+  for (var i=0; i < passwordLength; i++) {
+    var completedChoices = confirmChoices[Math.floor(Math.random() * confirmChoices.length)];
+    password.push(completedChoices); 
+  };
+
+  return password;
+
 };
 
-var password = [];
 
-for (var i=0; i < enter; i++) {
-  var completedChoices = confirmChoices[Math.floor(Math.random() * confirmChoices.length)];
-  password.push(completedChoices); 
-}
-
-
-  
-
-
-//generate password criteria
-
-//Display generated password on page 
-  //return "Your password is " + password;
 
 
 // Write password to the #password input
 function writePassword() {
   var password = generatePassword();
-  var passwordText = document.querySelector("#password");
+  var passwordText = document.querySelector("#password"); 
+  
+  //return password;
 
   passwordText.value = password;
 
